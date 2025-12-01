@@ -1,0 +1,150 @@
+:root {
+    /* 定義顏色變數 */
+    --color-dark-green: #004d40;
+    --color-unlocked: #ff7043; /* 暖橘色，解鎖後 */
+    --color-locked: #4db6ac; /* 冷綠色，鎖定中 */
+    --color-text-light: #fbe9e7;
+    --color-text-dark: #212121;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--color-dark-green);
+    color: var(--color-text-light);
+    text-align: center;
+    padding: 20px;
+    margin: 0;
+}
+
+header {
+    margin-bottom: 40px;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 5px;
+}
+
+/* --- 月曆網格佈局 --- */
+.calendar-grid {
+    display: grid;
+    /* 確保在不同大小螢幕下都是 6 欄或自適應 */
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); 
+    gap: 15px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+/* --- 門扉基礎樣式 --- */
+.door {
+    background-color: var(--color-locked);
+    color: var(--color-text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    font-weight: bold;
+    aspect-ratio: 1 / 1; /* 確保門扉是正方形 */
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    cursor: not-allowed; /* 預設鎖定，不可點擊 */
+    position: relative;
+}
+.door::after {
+    content: "🔒";
+    position: absolute;
+    font-size: 1.5em;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0.8;
+}
+
+/* --- 解鎖狀態 (由 JavaScript 添加) --- */
+.door.unlocked {
+    background-color: var(--color-unlocked);
+    cursor: pointer;
+    transform: scale(1.05);
+    box-shadow: 0 8px 12px rgba(255, 112, 67, 0.6);
+}
+
+.door.unlocked:hover {
+    opacity: 0.9;
+}
+
+/* 解鎖時隱藏鎖頭圖示 */
+.door.unlocked::after {
+    content: ""; 
+}
+
+/* --- 彈窗 (Modal) 樣式 --- */
+.modal {
+    display: none; /* JavaScript 控制顯示/隱藏 */
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8); /* 黑色半透明背景 */
+    backdrop-filter: blur(5px); /* 輕微模糊背景 */
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 0.3s ease;
+}
+
+.modal-content {
+    background-color: var(--color-text-light);
+    color: var(--color-text-dark);
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+    animation: slideUp 0.5s ease;
+}
+
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: var(--color-unlocked);
+    text-decoration: none;
+}
+
+#modal-title {
+    font-size: 1.8em;
+    color: var(--color-dark-green);
+    margin-bottom: 10px;
+}
+
+#modal-text {
+    font-size: 1.2em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+.quote-type {
+    font-style: italic;
+    color: #888;
+}
+
+/* 動畫效果 */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
