@@ -34,7 +34,6 @@ h1 {
     max-width: 700px;
     margin: 0 auto;
     padding-top: 50px; /* 留出樹頂空間 */
-    /* 視覺裝飾：雪花或節日背景圖可加在此 */
 }
 
 /* 樹星 */
@@ -63,7 +62,6 @@ h1 {
     align-items: center;
     gap: 10px; /* 門扉間距 */
     margin-bottom: 5px; /* 行間距 */
-    /* 讓上面的行寬度小於下面的行，形成金字塔/樹形 */
     width: 100%;
 }
 
@@ -79,24 +77,21 @@ h1 {
 
 /* --- 門扉基礎樣式 (調整為樹葉綠) --- */
 .door {
-    /* 保持原有的 Flex 屬性讓內容置中 */
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5em; /* 稍微縮小字體 */
+    font-size: 1.5em;
     font-weight: bold;
-    aspect-ratio: 1 / 1; /* 確保門扉是正方形 */
+    aspect-ratio: 1 / 1;
     border-radius: 5px;
     box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
     cursor: not-allowed; 
     position: relative;
-    flex-grow: 1; /* 讓門扉平均佔據該行空間 */
-    
-    /* 聖誕樹特定的門扉顏色 */
+    flex-grow: 1; 
     background-color: var(--color-tree-green);
     color: var(--color-text-light);
-    opacity: 0.8; /* 預設鎖定，稍微暗一點 */
+    opacity: 0.8; 
 }
 
 /* 24號門特殊樣式 */
@@ -105,8 +100,8 @@ h1 {
     background-color: gold !important;
     color: var(--color-text-dark);
     margin-top: -10px;
-    z-index: 5; /* 確保它在最上層 */
-    border-radius: 50%; /* 讓頂部更像球 */
+    z-index: 5; 
+    border-radius: 50%; 
 }
 
 
@@ -192,4 +187,3 @@ h1 {
     from { transform: translateY(50px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
-/* 【✅ 修正：已移除最後多餘的 } 】*/
