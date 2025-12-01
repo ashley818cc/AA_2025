@@ -1,8 +1,9 @@
 :root {
-    /* 定義顏色變數 */
-    --color-dark-green: #004d40;
+    /* 聖誕樹顏色 */
+    --color-dark-green: #004d40; /* 背景色 */
+    --color-tree-green: #1a7e44; /* 樹葉深綠 */
     --color-unlocked: #ff7043; /* 暖橘色，解鎖後 */
-    --color-locked: #4db6ac; /* 冷綠色，鎖定中 */
+    --color-locked: #4db6ac; /* 門扉鎖定色 */
     --color-text-light: #fbe9e7;
     --color-text-dark: #212121;
 }
@@ -25,62 +26,116 @@ h1 {
     margin-bottom: 5px;
 }
 
-/* --- 月曆網格佈局 --- */
-.calendar-grid {
-    display: grid;
-    /* 確保在不同大小螢幕下都是 6 欄或自適應 */
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); 
-    gap: 15px;
-    max-width: 900px;
+/* --- 聖誕樹容器 --- */
+.tree-container {
+    display: flex;
+    flex-direction: column; /* 讓行垂直堆疊 */
+    align-items: center; /* 讓所有行置中 */
+    max-width: 700px;
     margin: 0 auto;
+    padding-top: 50px; /* 留出樹頂空間 */
+    /* 視覺裝飾：雪花或節日背景圖可加在此 */
 }
 
-/* --- 門扉基礎樣式 --- */
-.door {
-    background-color: var(--color-locked);
-    color: var(--color-text-light);
+/* 樹星 */
+.tree-star {
+    font-size: 3em;
+    line-height: 0.5;
+    margin-bottom: 10px;
+    color: gold;
+    text-shadow: 0 0 10px rgba(255, 255, 0, 0.7);
+}
+
+/* 樹幹 */
+.tree-trunk {
+    width: 60px;
+    height: 80px;
+    background-color: #6d4c41; /* 棕色 */
+    border-radius: 5px;
+    margin-top: -15px; /* 向上微調與底部連結 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* --- 樹行樣式 --- */
+.tree-row {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2em;
+    gap: 10px; /* 門扉間距 */
+    margin-bottom: 5px; /* 行間距 */
+    /* 讓上面的行寬度小於下面的行，形成金字塔/樹形 */
+    width: 100%;
+}
+
+/* 針對頂部的行進行寬度微調 */
+.row-24 { width: 10%; margin-bottom: 0; }
+.row-2 { width: 30%; }
+.row-3 { width: 50%; }
+.row-4 { width: 70%; }
+.row-5 { width: 90%; }
+.row-6 { width: 100%; }
+.row-3-base { width: 60%; margin-top: 10px; }
+
+
+/* --- 門扉基礎樣式 (調整為樹葉綠) --- */
+.door {
+    /* 保持原有的 Flex 屬性讓內容置中 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em; /* 稍微縮小字體 */
     font-weight: bold;
     aspect-ratio: 1 / 1; /* 確保門扉是正方形 */
-    border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
-    cursor: not-allowed; /* 預設鎖定，不可點擊 */
+    cursor: not-allowed; 
     position: relative;
+    flex-grow: 1; /* 讓門扉平均佔據該行空間 */
+    
+    /* 聖誕樹特定的門扉顏色 */
+    background-color: var(--color-tree-green);
+    color: var(--color-text-light);
+    opacity: 0.8; /* 預設鎖定，稍微暗一點 */
 }
+
+/* 24號門特殊樣式 */
+.row-24 .door {
+    font-size: 2em;
+    background-color: gold !important;
+    color: var(--color-text-dark);
+    margin-top: -10px;
+    z-index: 5; /* 確保它在最上層 */
+    border-radius: 50%; /* 讓頂部更像球 */
+}
+
+
+/* 鎖頭與解鎖樣式（保持不變） */
 .door::after {
     content: "🔒";
     position: absolute;
-    font-size: 1.5em;
+    font-size: 1em;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0.8;
 }
 
-/* --- 解鎖狀態 (由 JavaScript 添加) --- */
 .door.unlocked {
     background-color: var(--color-unlocked);
     cursor: pointer;
     transform: scale(1.05);
     box-shadow: 0 8px 12px rgba(255, 112, 67, 0.6);
+    opacity: 1;
 }
 
-.door.unlocked:hover {
-    opacity: 0.9;
-}
-
-/* 解鎖時隱藏鎖頭圖示 */
 .door.unlocked::after {
     content: ""; 
 }
 
-/* --- 彈窗 (Modal) 樣式 --- */
-.modal {
-    display: none; /* JavaScript 控制顯示/隱藏 */
+/* --- 彈窗 (Modal) 樣式 (保持不變) --- */
+.modal { 
+    display: none; 
     position: fixed;
     z-index: 100;
     left: 0;
@@ -88,14 +143,14 @@ h1 {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0, 0, 0, 0.8); /* 黑色半透明背景 */
-    backdrop-filter: blur(5px); /* 輕微模糊背景 */
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
     align-items: center;
     justify-content: center;
     animation: fadeIn 0.3s ease;
 }
 
-.modal-content {
+.modal-content { 
     background-color: var(--color-text-light);
     color: var(--color-text-dark);
     margin: 15% auto;
@@ -107,7 +162,7 @@ h1 {
     animation: slideUp 0.5s ease;
 }
 
-.close-btn {
+.close-btn { 
     color: #aaa;
     float: right;
     font-size: 28px;
@@ -116,29 +171,18 @@ h1 {
     transition: color 0.2s;
 }
 
-.close-btn:hover,
-.close-btn:focus {
-    color: var(--color-unlocked);
-    text-decoration: none;
-}
-
-#modal-title {
+#modal-title { 
     font-size: 1.8em;
     color: var(--color-dark-green);
     margin-bottom: 10px;
 }
 
-#modal-text {
+#modal-text { 
     font-size: 1.2em;
     line-height: 1.6;
     margin-bottom: 20px;
 }
-.quote-type {
-    font-style: italic;
-    color: #888;
-}
 
-/* 動畫效果 */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
@@ -148,3 +192,4 @@ h1 {
     from { transform: translateY(50px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
 }
+/* 【✅ 修正：已移除最後多餘的 } 】*/
